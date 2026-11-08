@@ -1,7 +1,8 @@
 const $=i=>document.getElementById(i);
 const R=document.documentElement;
 const isDark=()=>(R.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark';
-const paintTheme=()=>{const d=isDark();$('theme').textContent=d?'☀':'☾';$('theme').setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme')};
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>';
+const paintTheme=()=>{const d=isDark();$('theme').innerHTML=d?SUN:MOON;$('theme').setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme')};
 try{const s=localStorage.getItem('ironforge-theme');if(s)R.dataset.theme=s}catch(e){}
 paintTheme();
 $('theme').onclick=()=>{const t=isDark()?'light':'dark';R.dataset.theme=t;try{localStorage.setItem('ironforge-theme',t)}catch(e){}paintTheme()};
@@ -27,7 +28,7 @@ let k=0;const im=$('stage').querySelectorAll('img');
 const cap=()=>$('cap').textContent=EQ[k][1];cap();
 setInterval(()=>{im[k].classList.remove('on');k=(k+1)%im.length;im[k].classList.add('on');cap()},3200);
 
-const CC={Push:'var(--red)',Pull:'var(--blue)',Legs:'var(--grn)',Core:'var(--yel)',Cardio:'var(--pur)'};
+const CC={Push:'var(--c1)',Pull:'var(--c2)',Legs:'var(--c3)',Core:'var(--c4)',Cardio:'var(--c5)'};
 $('chips').innerHTML=['All','Push','Pull','Legs','Core','Cardio'].map((c,i)=>`<button class="chip${i?'':' on'}" type="button" data-c="${c}">${c}</button>`).join('');
 $('exs').innerHTML='<div class="ex hd"><span></span><span>Exercise</span><span>Focus</span><span>Level</span><span>Sets and reps</span><span>Form cue</span></div>'+[
 ['bench','Barbell bench press','Push','Intermediate','4 × 6–8','Shoulder blades back, lower to mid-chest, press in a slight arc.'],
@@ -41,9 +42,9 @@ $('exs').innerHTML='<div class="ex hd"><span></span><span>Exercise</span><span>F
 ].map(([f,n,c,l,s,t])=>`<article class="ex" data-c="${c}"><img src="${img(f)}" alt="" loading="lazy"><h3>${n}</h3><span class="dt" style="--c:${CC[c]}">${c}</span><span class="lv">${l}</span><span class="lv">${s}</span><p>${t}</p></article>`).join('');
 $('chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));const c=b.dataset.c;document.querySelectorAll('#exs .ex:not(.hd)').forEach(r=>{r.hidden=c!=='All'&&r.dataset.c!==c})};
 
-$('week').innerHTML=[['Mon','06:30','Iron HIIT','var(--red)','#fff'],['Tue','07:00','Yoga flow','var(--grn)','#fff'],['Wed','18:00','Spin burn','var(--blue)','#fff'],['Thu','19:00','Boxing fit','var(--yel)','#0E0F12'],['Fri','08:00','Pilates core','var(--grn)','#fff'],['Sat','09:00','CrossFit WOD','var(--red)','#fff']].map(([d,t,n,c,x])=>`<div class="day"><p class="dy">${d}</p><div class="cl" style="--c:${c};--t:${x}"><b>${n}</b><small>${t}</small></div></div>`).join('');
+$('week').innerHTML=[['Mon','06:30','Iron HIIT','linear-gradient(135deg,#522B5B,#854F6C)','#FBE4DB'],['Tue','07:00','Yoga flow','linear-gradient(135deg,#854F6C,#B2828F)','#FBE4DB'],['Wed','18:00','Spin burn','linear-gradient(135deg,#DFB6B2,#FBE4DB)','#190019'],['Thu','19:00','Boxing fit','linear-gradient(135deg,#2B124C,#522B5B)','#FBE4DB'],['Fri','08:00','Pilates core','linear-gradient(135deg,#854F6C,#B2828F)','#FBE4DB'],['Sat','09:00','CrossFit WOD','linear-gradient(135deg,#522B5B,#854F6C)','#FBE4DB']].map(([d,t,n,c,x])=>`<div class="day"><p class="dy">${d}</p><div class="cl" style="--c:${c};--t:${x}"><b>${n}</b><small>${t}</small></div></div>`).join('');
 
-$('co').innerHTML=[['RC','Ryan Carter','Strength coach, 10 years','var(--red)','#fff'],['MC','Mia Chen','Yoga and mobility, 8 years','var(--grn)','#fff'],['LS','Leo Santos','HIIT and boxing, 6 years','var(--yel)','#0E0F12']].map(([a,n,r,c,x])=>`<div class="co"><div class="av" style="--c:${c};--t:${x}">${a}</div><h3>${n}</h3><p>${r}</p></div>`).join('');
+$('co').innerHTML=[['RC','Ryan Carter','Strength coach, 10 years','linear-gradient(135deg,#522B5B,#854F6C)','#FBE4DB'],['MC','Mia Chen','Yoga and mobility, 8 years','linear-gradient(135deg,#2B124C,#522B5B)','#FBE4DB'],['LS','Leo Santos','HIIT and boxing, 6 years','linear-gradient(135deg,#DFB6B2,#FBE4DB)','#190019']].map(([a,n,r,c,x])=>`<div class="co"><div class="av" style="--c:${c};--t:${x}">${a}</div><h3>${n}</h3><p>${r}</p></div>`).join('');
 
 const fmt=n=>'Rs '+n.toLocaleString('en-US');
 const PR={Basic:[4000,3200],Pro:[7000,5600],Elite:[12000,9600]};let Y=0;
@@ -91,3 +92,35 @@ $('confirm').onclick=async()=>{
     $('form').reset();$('trx').value='';
   }catch(x){console.error(x);err.textContent='We could not complete your membership. Please try again.'}
   b.disabled=false};
+
+/* ===== Effects: reveal, progress bar, cursor glow, scroll spy, ripple, card glow ===== */
+document.body.insertAdjacentHTML('afterbegin','<div class="pg" id="pg"></div><div class="cg" id="cg"></div>');
+document.querySelectorAll('.sh,.card,.day,.co,.pl,.st,.res,.form').forEach(e=>e.classList.add('rv'));
+const rvo='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting)return;rvo.unobserve(en.target);
+  const i=[...en.target.parentElement.children].indexOf(en.target)%4;
+  setTimeout(()=>en.target.classList.add('in'),i*80);
+}),{threshold:.1,rootMargin:'0px 0px -40px 0px'}):null;
+document.querySelectorAll('.rv').forEach(e=>rvo?rvo.observe(e):e.classList.add('in'));
+
+const pg=$('pg');
+addEventListener('scroll',()=>{const h=R,m=h.scrollHeight-h.clientHeight;pg.style.transform='scaleX('+(m>0?scrollY/m:0)+')'},{passive:true});
+
+const cg=$('cg');
+addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;cg.classList.add('on');cg.style.transform='translate('+e.clientX+'px,'+e.clientY+'px)'});
+document.addEventListener('pointerleave',()=>cg.classList.remove('on'));
+
+const heroEl=document.querySelector('.hero');
+heroEl.addEventListener('pointermove',e=>{const r=heroEl.getBoundingClientRect();heroEl.style.setProperty('--mx',e.clientX-r.left+'px');heroEl.style.setProperty('--my',e.clientY-r.top+'px')});
+
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card');if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty('--gx',e.clientX-r.left+'px');c.style.setProperty('--gy',e.clientY-r.top+'px')});
+
+document.addEventListener('pointerdown',e=>{
+  const b=e.target.closest('.btn');if(!b)return;
+  const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height),s=document.createElement('span');
+  s.className='rip';s.style.cssText='width:'+d+'px;height:'+d+'px;left:'+(e.clientX-r.left-d/2)+'px;top:'+(e.clientY-r.top-d/2)+'px';
+  b.append(s);setTimeout(()=>s.remove(),650);
+});
+
+const links=[...document.querySelectorAll('#menu a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+if('IntersectionObserver' in window){const spy=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)links.forEach((a,i)=>a.classList.toggle('on',secs[i]===en.target))}),{rootMargin:'-45% 0px -50% 0px'});secs.forEach(s=>s&&spy.observe(s))}
