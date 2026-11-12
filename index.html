@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRONFORGE Gym</title>
+<meta name="description" content="IRONFORGE gym: pro equipment, certified coaches, group classes, an exercise library and a BMI tool.">
+<link rel="icon" href="images/dumbbell.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Saira+Stencil+One&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav"><div class="wrap">
+<a class="logo" href="#top"><img src="images/dumbbell.svg" alt="">IRONFORGE</a>
+<nav id="menu">
+<a href="#equipment">Equipment</a><a href="#exercises">Exercises</a><a href="#classes">Classes</a><a href="#coaches">Coaches</a><a href="#bmi">BMI</a><a href="#pricing">Pricing</a>
+</nav>
+<div class="nr">
+<button class="ib" id="theme" type="button"></button>
+<a class="btn sm" href="#join">Join</a>
+<button class="ib bgr" id="burger" type="button" aria-label="Open menu">≡</button>
+</div>
+</div></header>
+
+<section class="hero" id="top"><div class="wrap hg">
+<div>
+<h1><span>Train like</span><span>it matters</span></h1>
+<p class="lead">Pro equipment, certified coaches and classes that push you past the last rep. Open 24/7, with a plan for every level.</p>
+<div class="cta"><a class="btn" href="#join">Join now</a><a class="btn line" href="#equipment">See the equipment</a></div>
+<div class="st">
+<div><b data-n="2500">0</b><span>Members</span></div>
+<div><b data-n="25">0</b><span>Certified coaches</span></div>
+<div><b data-n="40">0</b><span>Classes every week</span></div>
+</div>
+</div>
+<div class="stage" id="stage"><div class="cap" id="cap" aria-live="off"></div></div>
+</div></section>
+
+<section id="equipment" class="alt"><div class="wrap">
+<div class="sh"><h2>Gym equipment</h2><p>Pro-grade machines and free weights, cleaned and checked every day so you can train without waiting.</p></div>
+<div class="eq" id="eq"></div>
+</div></section>
+
+<section id="exercises"><div class="wrap">
+<div class="sh"><h2>Exercise library</h2><p>Clear form cues with sets and reps. Pick a focus and start training.</p></div>
+<div class="chips" id="chips"></div>
+<div id="exs"></div>
+</div></section>
+
+<section id="classes" class="alt"><div class="wrap">
+<div class="sh"><h2>Weekly classes</h2><p>Coached group sessions every week. Reserve your spot at the front desk.</p></div>
+<div class="week" id="week"></div>
+</div></section>
+
+<section id="coaches"><div class="wrap">
+<div class="sh"><h2>Your coaches</h2><p>Certified trainers who build the plan with you, then keep you on track.</p></div>
+<div class="coaches" id="co"></div>
+</div></section>
+
+<section id="bmi" class="alt"><div class="wrap bm">
+<div>
+<h2>BMI check</h2>
+<p class="lead">Enter your height and weight to see your body mass index. It is a quick guide, and a coach can build the full picture with you.</p>
+</div>
+<div>
+<div class="form">
+<div class="fld"><label for="ht">Height (cm)</label><input id="ht" type="number" inputmode="numeric" value="175" min="100" max="250"></div>
+<div class="fld"><label for="wt">Weight (kg)</label><input id="wt" type="number" inputmode="numeric" value="75" min="30" max="250"></div>
+<button class="btn" id="calc" type="button">Calculate</button>
+</div>
+<div class="res">
+<div class="big" id="bv">--</div>
+<p class="bc" id="bc"></p>
+<div class="sc"><div class="bar"><i></i><i></i><i></i><i></i></div><span class="mk" id="mk"></span></div>
+</div>
+</div>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+<div class="sh"><h2>Membership</h2><p>No long contracts. Upgrade, pause or cancel whenever you need to.</p></div>
+<div class="seg"><button class="on" type="button" data-y="0">Monthly</button><button type="button" data-y="1">Yearly, save 20%</button></div>
+<div class="plans" id="plans"></div>
+</div></section>
+
+<section id="join" class="alt"><div class="wrap jn">
+<div>
+<h2>Join IRONFORGE</h2>
+<p class="lead">Pick your plan and join in two quick steps. Pay by Easypaisa, JazzCash or cash at the gym. No contract, no pressure.</p>
+<div class="ct"><div><b>Address</b><br>123 Iron Street, Your City</div><div><b>Phone</b><br><a href="tel:03009260391">0300-9260391</a></div><div><b>Hours</b><br>Open 24/7, staffed 6 am to 10 pm</div></div>
+</div>
+<div>
+<form class="form" id="form">
+<div class="fld"><label for="nm">Full name</label><input id="nm" required autocomplete="name"></div>
+<div class="fld"><label for="em">Email</label><input id="em" type="email" required autocomplete="email"></div>
+<div class="fld"><label for="pn">Plan</label><select id="pn"><option>Basic</option><option selected>Pro</option><option>Elite</option></select></div>
+<button class="btn" type="submit">Join now</button>
+</form>
+<div class="form" id="pay" hidden>
+<div class="sumbox"><div><span>Member</span><b id="pmName"></b></div><div><span>Plan</span><b id="pmPlan"></b></div></div>
+<div class="bseg" id="bill"><button type="button" class="on" data-y="0">Monthly</button><button type="button" data-y="1">Yearly, save 20%</button></div>
+<div class="amt"><span id="amtLbl"></span><b id="amtVal"></b></div>
+<h3>Payment method</h3>
+<div class="pays">
+<label class="pay"><input type="radio" name="pm" value="easypaisa" checked> Easypaisa</label>
+<label class="pay"><input type="radio" name="pm" value="jazzcash"> JazzCash</label>
+<label class="pay"><input type="radio" name="pm" value="cash"> Cash at the gym</label>
+</div>
+<div class="wallet" id="wallet"><img id="wq" alt="Payment QR code"><div><p>Send <b id="wAmt"></b> to <b id="wNum"></b>, then enter the transaction ID.</p><input id="trx" placeholder="Transaction ID"></div></div>
+<p class="note" id="cashNote" hidden>Pay in cash at the front desk. Your membership starts once the payment is received.</p>
+<div class="btns"><button class="btn" type="button" id="confirm">Confirm membership</button><button class="btn line" type="button" id="back">Back</button></div>
+<p class="err" id="err" role="alert"></p>
+</div>
+<div class="form" id="done" hidden></div>
+</div>
+</div></section>
+
+<footer><div class="wrap"><span class="logo">IRONFORGE</span><span>© 2026 IRONFORGE Gym. All rights reserved.</span></div></footer>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
