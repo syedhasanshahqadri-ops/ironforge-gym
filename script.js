@@ -5,8 +5,17 @@ const paintTheme=()=>{const d=isDark();$('theme').textContent=d?'☀':'☾';$('t
 try{const s=localStorage.getItem('ironforge-theme');if(s)R.dataset.theme=s}catch(e){}
 paintTheme();
 $('theme').onclick=()=>{const t=isDark()?'light':'dark';R.dataset.theme=t;try{localStorage.setItem('ironforge-theme',t)}catch(e){}paintTheme()};
-$('burger').onclick=()=>$('menu').classList.toggle('open');
-document.querySelectorAll('#menu a').forEach(a=>a.onclick=()=>$('menu').classList.remove('open'));
+
+// Mobile menu
+const setMenu=o=>{$('menu').classList.toggle('open',o);$('burger').setAttribute('aria-expanded',o);$('burger').textContent=o?'✕':'≡';$('burger').setAttribute('aria-label',o?'Close menu':'Open menu')};
+$('burger').onclick=()=>setMenu(!$('menu').classList.contains('open'));
+document.querySelectorAll('#menu a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+document.addEventListener('click',e=>{if(!e.target.closest('.nav'))setMenu(false)});
+matchMedia('(min-width:1081px)').addEventListener('change',e=>{if(e.matches)setMenu(false)});
+// highlight the current section in the menu
+const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('#menu a').forEach(a=>a.classList.toggle('act',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
 
 // Equipment: [image file, name, description, focus]
 const EQ=[
@@ -38,7 +47,7 @@ $('exs').innerHTML='<div class="ex hd"><span></span><span>Exercise</span><span>F
 ['treadmill','Treadmill intervals','Cardio','Beginner','8 × 1 min','Run hard for one minute, walk for one minute, and repeat.'],
 ['battle-rope','Battle rope waves','Cardio','Intermediate','5 × 30 sec','Soft knees, brace your core and make big, fast waves.'],
 ['weight-plates','Plate Russian twist','Core','Beginner','3 × 20','Lean back, lift your feet, and rotate from the ribs.']
-].map(([f,n,c,l,s,t])=>`<article class="ex" data-c="${c}"><img src="${img(f)}" alt="" loading="lazy"><h3>${n}</h3><span class="dt" style="--c:${CC[c]}">${c}</span><span class="lv">${l}</span><span class="lv">${s}</span><p>${t}</p></article>`).join('');
+].map(([f,n,c,l,s,t])=>`<article class="ex" data-c="${c}"><img src="${img(f)}" alt="" loading="lazy"><h3>${n}</h3><div class="mt"><span class="dt" style="--c:${CC[c]}">${c}</span><span class="lv">${l}</span><span class="lv">${s}</span></div><p>${t}</p></article>`).join('');
 $('chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));const c=b.dataset.c;document.querySelectorAll('#exs .ex:not(.hd)').forEach(r=>{r.hidden=c!=='All'&&r.dataset.c!==c})};
 
 $('week').innerHTML=[['Mon','06:30','Iron HIIT','var(--red)','#fff'],['Tue','07:00','Yoga flow','var(--grn)','#fff'],['Wed','18:00','Spin burn','var(--blue)','#fff'],['Thu','19:00','Boxing fit','var(--yel)','#0E0F12'],['Fri','08:00','Pilates core','var(--grn)','#fff'],['Sat','09:00','CrossFit WOD','var(--red)','#fff']].map(([d,t,n,c,x])=>`<div class="day"><p class="dy">${d}</p><div class="cl" style="--c:${c};--t:${x}"><b>${n}</b><small>${t}</small></div></div>`).join('');
@@ -53,7 +62,7 @@ $('plans').onclick=e=>{const a=e.target.closest('[data-plan]');if(a)$('pn').valu
 document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x===b));plans(+b.dataset.y)});
 
 const bmi=()=>{const h=$('ht').value/100,w=+$('wt').value;if(!(h>0&&w>0)){$('bv').textContent='--';$('bc').textContent='Enter a height and weight';return}const b=w/(h*h);$('bv').textContent=b.toFixed(1);$('bc').textContent=b<18.5?'Underweight':b<25?'Healthy range':b<30?'Overweight':'Obese range';$('mk').style.left=Math.min(100,Math.max(0,(b-15)/25*100))+'%'};
-$('calc').onclick=bmi;bmi();
+$('calc').onclick=bmi;$('ht').oninput=bmi;$('wt').oninput=bmi;bmi();
 
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target,n=+el.dataset.n,st=Math.ceil(n/60);let c=0;const f=()=>{c=Math.min(n,c+st);el.textContent=c.toLocaleString('en-US');if(c<n)requestAnimationFrame(f)};f()}));
